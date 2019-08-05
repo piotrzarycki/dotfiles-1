@@ -45,6 +45,9 @@ if [[ -d /usr/local/sbin ]]; then
     export PATH=/usr/local/sbin:$PATH
 fi
 
+# add brew-installed grep
+export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+
 # adding path directory for custom scripts
 export PATH=$DOTFILES/bin:$PATH
 
@@ -76,9 +79,9 @@ if [ -z ${RELOAD}  ]; then
     zplug 'zplug/zplug', hook-build:'zplug --self-manage'
     zplug 'zsh-users/zsh-syntax-highlighting', defer:2
     zplug 'zsh-users/zsh-autosuggestions'
-    export NVM_AUTO_USE=true
+    # export NVM_AUTO_USE=true
     # export NVM_NO_USE=true
-    zplug 'lukechilds/zsh-nvm'
+    # zplug 'lukechilds/zsh-nvm'
 
     if ! zplug check; then
         printf "Install? [y/N]: "
