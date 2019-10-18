@@ -130,88 +130,43 @@ call plug#begin('~/.config/nvim/plugged')
         Plug 'itchyny/lightline.vim'
         Plug 'nicknisi/vim-base16-lightline'
         let g:lightline = {
-        \   'colorscheme': 'base16',
-        \   'active': {
-        \       'left': [ [ 'mode', 'paste' ],
-        \               [ 'gitbranch' ],
-        \               [ 'readonly', 'filetype', 'filename' ]],
-        \       'right': [ [ 'percent' ], [ 'lineinfo' ],
-        \               [ 'fileformat', 'fileencoding' ],
-        \               [ 'gitblame', 'currentfunction',  'cocstatus', 'linter_errors', 'linter_warnings' ]]
-        \   },
-        \   'component_expand': {
-        \   },
-        \   'component_type': {
-        \       'readonly': 'error',
-        \       'linter_warnings': 'warning',
-        \       'linter_errors': 'error'
-        \   },
-        \   'component_function': {
-        \       'fileencoding': 'LightlineFileEncoding',
-        \       'filename': 'LightlineFileName',
-        \       'fileformat': 'LightlineFileFormat',
-        \       'filetype': 'LightlineFileType',
-        \       'gitbranch': 'LightlineGitBranch',
-        \       'cocstatus': 'coc#status',
-        \       'currentfunction': 'CoCCurrentFunction',
-        \       'gitblame': 'CocGitBlame'
-        \   },
-        \   'tabline': {
-        \       'left': [ [ 'tabs' ] ],
-        \       'right': [ [ 'close' ] ]
-        \   },
-        \   'tab': {
-        \       'active': [ 'filename', 'modified' ],
-        \       'inactive': [ 'filename', 'modified' ],
-        \   },
-        \   'separator': { 'left': '', 'right': '' },
-        \   'subseparator': { 'left': '', 'right': '' }
+            \   'colorscheme': 'base16',
+            \   'active': {
+            \       'left': [ [ 'mode', 'paste' ],
+            \               [ 'gitbranch' ],
+            \               [ 'readonly', 'filetype', 'filename' ]],
+            \       'right': [ [ 'percent' ], [ 'lineinfo' ],
+            \               [ 'fileformat', 'fileencoding' ],
+            \               [ 'gitblame', 'currentfunction',  'cocstatus', 'linter_errors', 'linter_warnings' ]]
+            \   },
+            \   'component_expand': {
+            \   },
+            \   'component_type': {
+            \       'readonly': 'error',
+            \       'linter_warnings': 'warning',
+            \       'linter_errors': 'error'
+            \   },
+            \   'component_function': {
+            \       'fileencoding': 'helpers#lightline#fileEncoding',
+            \       'filename': 'helpers#lightline#fileName',
+            \       'fileformat': 'helpers#lightline#fileFormat',
+            \       'filetype': 'helpers#lightline#fileType',
+            \       'gitbranch': 'helpers#lightline#gitBranch',
+            \       'cocstatus': 'coc#status',
+            \       'currentfunction': 'helpers#lightline#currentFunction',
+            \       'gitblame': 'helpers#lightline#gitBlame'
+            \   },
+            \   'tabline': {
+            \       'left': [ [ 'tabs' ] ],
+            \       'right': [ [ 'close' ] ]
+            \   },
+            \   'tab': {
+            \       'active': [ 'filename', 'modified' ],
+            \       'inactive': [ 'filename', 'modified' ],
+            \   },
+            \   'separator': { 'left': '', 'right': '' },
+            \   'subseparator': { 'left': '', 'right': '' }
         \ }
-        " \   'separator': { 'left': '▓▒░', 'right': '░▒▓' },
-        " \   'subseparator': { 'left': '▒', 'right': '░' }
-
-        function! LightlineFileName() abort
-            let filename = winwidth(0) > 70 ? expand('%') : expand('%:t')
-            if filename =~ 'NERD_tree'
-                return ''
-            endif
-            let modified = &modified ? ' +' : ''
-            return fnamemodify(filename, ":~:.") . modified
-        endfunction
-
-        function! LightlineFileEncoding()
-            " only show the file encoding if it's not 'utf-8'
-            return &fileencoding == 'utf-8' ? '' : &fileencoding
-        endfunction
-
-        function! LightlineFileFormat()
-            " only show the file format if it's not 'unix'
-            let format = &fileformat == 'unix' ? '' : &fileformat
-            return winwidth(0) > 70 ? format . ' ' . WebDevIconsGetFileFormatSymbol() : ''
-        endfunction
-
-        function! LightlineFileType()
-            return WebDevIconsGetFileTypeSymbol()
-        endfunction
-
-        function! LightlineGitBranch()
-            return "\uE725" . (exists('*fugitive#head') ? fugitive#head() : '')
-        endfunction
-
-        function! LightlineUpdate()
-            if g:goyo_entered == 0
-                " do not update lightline if in Goyo mode
-                call lightline#update()
-            endif
-        endfunction
-
-        function! CoCCurrentFunction()
-            return get(b:, 'coc_current_function', '')
-        endfunction
-
-        function! CocGitBlame()
-            return winwidth(0) > 70 ? get(b:, 'coc_git_blame', '') : ''
-        endfunction
     " }}}
 " }}}
 
@@ -261,16 +216,14 @@ call plug#begin('~/.config/nvim/plugged')
     " enable . command in visual mode
     vnoremap . :normal .<cr>
 
-    map <silent> <C-h> :call functions#WinMove('h')<cr>
-    map <silent> <C-j> :call functions#WinMove('j')<cr>
-    map <silent> <C-k> :call functions#WinMove('k')<cr>
-    map <silent> <C-l> :call functions#WinMove('l')<cr>
+    map <silent> <C-h> <Plug>WinMoveLeft
+    map <silent> <C-j> <Plug>WinMoveDown
+    map <silent> <C-k> <Plug>WinMoveUp
+    map <silent> <C-l> <Plug>WinMoveRight
 
-    nnoremap <silent> <leader>z :call functions#zoom()<cr>
+    nmap <leader>z <Plug>Zoom
 
     map <leader>wc :wincmd q<cr>
-
-    inoremap <tab> <c-r>=functions#Smart_TabComplete()<CR>
 
     " move line mappings
     " ∆ is <A-j> on macOS
@@ -322,89 +275,14 @@ call plug#begin('~/.config/nvim/plugged')
     vnoremap <silent> al :<c-u>normal! $v0<cr>
     onoremap <silent> al :<c-u>normal! $v0<cr>
 
-    let s:regNums = ['0b[01]', '0x\x', '\d' ]
-
-    " selec tthe next number on the line
-    " this can handle the following three formats:
-    "     1. binary  (eg: '0b1010', '0b0000', etc)
-    "     2. hex     (eg: '0xffff', '0x0000', etc)
-    "     3. decimal (eg: '0', '10', '01', etc)
-    function! s:inNumber()
-        " magic is required
-        let l:magic = &magic
-        set magic
-
-        let l:lineNr = line('.')
-
-        " create regex pattern matching any binary, hex, decimal number
-        let l:pat  = join(s:regNums, '\+\|') . '\+'
-
-        " move cursor to the end of number
-        if (!search(l:pat, 'ce', l:lineNr))
-            " if it fails, there was no match on this line
-            return
-        endif
-
-        " start visually selecting
-        normal! v
-
-        " move cursor to beginning of the number
-        call search(l:pat, 'cb', l:lineNr)
-
-        " restore magic
-        let &magic = l:magic
-    endfunction
-
-    " 'in number' (next number after cursor on current line)
-    xnoremap <silent> in :<c-u>call <sid>inNumber()<cr>
-    onoremap <silent> in :<c-u>call <sid>inNumber()<cr>
-
-    function! s:aroundNumber()
-        " select the next number on the line and any surrounding white-space;
-        " this can handle the following three formats (so long as s:regNums is
-        " defined as it should be above these functions):
-        "   1. binary  (eg: "0b1010", "0b0000", etc)
-        "   2. hex     (eg: "0xffff", "0x0000", "0x10af", etc)
-        "   3. decimal (eg: "0", "0000", "10", "01", etc)
-        " NOTE: if there is no number on the rest of the line starting at the
-        "       current cursor position, then visual selection mode is ended (if
-        "       called via an omap) or nothing is selected (if called via xmap);
-        "       this is true even if on the space following a number
-
-        " need magic for this to work properly
-        let l:magic = &magic
-        set magic
-
-        let l:lineNr = line('.')
-
-        " create regex pattern matching any binary, hex, decimal number
-        let l:pat = join(s:regNums, '\+\|') . '\+'
-
-        " move cursor to end of number
-        if (!search(l:pat, 'ce', l:lineNr))
-            " if it fails, there was not match on the line, so return prematurely
-            return
-        endif
-
-        " move cursor to end of any trailing white-space (if there is any)
-        call search('\%'.(virtcol('.')+1).'v\s*', 'ce', l:lineNr)
-
-        " start visually selecting from end of number + potential trailing whitspace
-        normal! v
-
-        " move cursor to beginning of number
-        call search(l:pat, 'cb', l:lineNr)
-
-        " move cursor to beginning of any white-space preceding number (if any)
-        call search('\s*\%'.virtcol('.').'v', 'b', l:lineNr)
-
-        " restore magic
-        let &magic = l:magic
-    endfunction
-
-    " 'around number' (next number on line and possible surrounding white-space)
-    xnoremap <silent> an :<c-u>call <sid>aroundNumber()<cr>
-    onoremap <silent> an :<c-u>call <sid>aroundNumber()<cr>
+    " Interesting word mappings
+    nmap <leader>0 <Plug>ClearInterestingWord
+    nmap <leader>1 <Plug>HiInterestingWord1
+    nmap <leader>2 <Plug>HiInterestingWord2
+    nmap <leader>3 <Plug>HiInterestingWord3
+    nmap <leader>4 <Plug>HiInterestingWord4
+    nmap <leader>5 <Plug>HiInterestingWord5
+    nmap <leader>6 <Plug>HiInterestingWord6
 " }}}
 
 " AutoGroups {{{
@@ -474,17 +352,10 @@ call plug#begin('~/.config/nvim/plugged')
         let g:startify_relative_path = 1
         let g:startify_use_env = 1
 
-        function! s:list_commits()
-            let git = 'git -C ' . getcwd()
-            let commits = systemlist(git . ' log --oneline | head -n5')
-            let git = 'G' . git[1:]
-            return map(commits, '{"line": matchstr(v:val, "\\s\\zs.*"), "cmd": "'. git .' show ". matchstr(v:val, "^\\x\\+") }')
-        endfunction
-
         " Custom startup list, only show MRU from current directory/project
         let g:startify_lists = [
         \  { 'type': 'dir',       'header': [ 'Files '. getcwd() ] },
-        \  { 'type': function('s:list_commits'), 'header': [ 'Recent Commits' ] },
+        \  { 'type': function('helpers#startify#listcommits'), 'header': [ 'Recent Commits' ] },
         \  { 'type': 'sessions',  'header': [ 'Sessions' ]       },
         \  { 'type': 'bookmarks', 'header': [ 'Bookmarks' ]      },
         \  { 'type': 'commands',  'header': [ 'Commands' ]       },
@@ -512,30 +383,8 @@ call plug#begin('~/.config/nvim/plugged')
     " Writing in vim {{{{
         Plug 'junegunn/goyo.vim'
 
-        let g:goyo_entered = 0
-        function! s:goyo_enter()
-            silent !tmux set status off
-            let g:goyo_entered = 1
-            set noshowmode
-            set noshowcmd
-            set scrolloff=999
-            set wrap
-            setlocal textwidth=0
-            setlocal wrapmargin=0
-        endfunction
-
-        function! s:goyo_leave()
-            silent !tmux set status on
-            let g:goyo_entered = 0
-            set showmode
-            set showcmd
-            set scrolloff=5
-            set textwidth=120
-            set wrapmargin=8
-        endfunction
-
-        autocmd! User GoyoEnter nested call <SID>goyo_enter()
-        autocmd! User GoyoLeave nested call <SID>goyo_leave()
+        autocmd! User GoyoEnter nested call helpers#goyo#enter()
+        autocmd! User GoyoLeave nested call helpers#goyo#leave()
     " }}}
 
     " context-aware pasting
@@ -655,7 +504,9 @@ call plug#begin('~/.config/nvim/plugged')
 
     " UltiSnips {{{
         Plug 'SirVer/ultisnips' " Snippets plugin
-        " let g:UltiSnipsExpandTrigger="<tab>"
+        let g:UltiSnipsExpandTrigger="<C-l>"
+        let g:UltiSnipsJumpForwardTrigger="<C-j>"
+        let g:UltiSnipsJumpBackwardTrigger="<C-k>"
     " }}}
 
     " coc {{{
@@ -669,11 +520,11 @@ call plug#begin('~/.config/nvim/plugged')
         \ 'coc-eslint',
         \ 'coc-tslint-plugin',
         \ 'coc-pairs',
-        \ 'coc-emoji',
         \ 'coc-sh',
         \ 'coc-vimlsp',
         \ 'coc-emmet',
-        \ 'coc-prettier'
+        \ 'coc-prettier',
+        \ 'coc-ultisnips'
         \ ]
 
         autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -794,9 +645,6 @@ call plug#begin('~/.config/nvim/plugged')
         let g:vim_json_syntax_conceal = 0
     " }}}
 
-    Plug 'fatih/vim-go', { 'for': 'go' }
-    Plug 'timcharper/textile.vim', { 'for': 'textile' }
-    Plug 'lambdatoast/elm.vim', { 'for': 'elm' }
     Plug 'ekalinin/Dockerfile.vim'
 " }}}
 

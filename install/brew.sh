@@ -19,8 +19,7 @@ formulas=(
     hub
     markdown
     mas
-    "neovim --HEAD"
-    node
+    neovim
     python
     reattach-to-user-namespace
     the_silver_searcher
@@ -35,7 +34,6 @@ formulas=(
     ripgrep
     git-standup
     entr
-    zplug
     yarn
 )
 
