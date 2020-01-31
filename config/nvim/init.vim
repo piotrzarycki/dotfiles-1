@@ -121,7 +121,6 @@ call plug#begin('~/.config/nvim/plugged')
 
     " highlight conflicts
     match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-
     " Load colorschemes
     Plug 'chriskempson/base16-vim'
     Plug 'joshdick/onedark.vim'
@@ -338,6 +337,9 @@ call plug#begin('~/.config/nvim/plugged')
 
     " detect indent style (tabs vs. spaces)
     Plug 'tpope/vim-sleuth'
+
+    " vim test
+    Plug 'janko/vim-test'
 
     " Startify: Fancy startup screen for vim {{{
         Plug 'mhinz/vim-startify'
@@ -671,7 +673,3 @@ call plug#end()
     highlight htmlArg cterm=italic term=italic gui=italic
     highlight xmlAttrib cterm=italic term=italic gui=italic
     " highlight Type cterm=italic term=italic gui=italic
-    highlight Normal ctermbg=none
-" }}}
-
-" vim:set foldmethod=marker foldlevel=0
