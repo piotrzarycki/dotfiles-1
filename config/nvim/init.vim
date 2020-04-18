@@ -332,9 +332,6 @@ call plug#begin('~/.config/nvim/plugged')
     " single/multi line code handler: gS - split one line into multiple, gJ - combine multiple lines into one
     Plug 'AndrewRadev/splitjoin.vim'
 
-    " add end, endif, etc. automatically
-    Plug 'tpope/vim-endwise'
-
     " detect indent style (tabs vs. spaces)
     Plug 'tpope/vim-sleuth'
 
@@ -498,6 +495,7 @@ call plug#begin('~/.config/nvim/plugged')
 
         Plug 'tpope/vim-rhubarb' " hub extension for fugitive
         Plug 'sodapopcan/vim-twiggy'
+        Plug 'rbong/vim-flog'
     " }}}
 
     " UltiSnips {{{
@@ -523,7 +521,8 @@ call plug#begin('~/.config/nvim/plugged')
         \ 'coc-emmet',
         \ 'coc-prettier',
         \ 'coc-ultisnips',
-        \ 'coc-explorer'
+        \ 'coc-explorer',
+        \ 'coc-diagnostic'
         \ ]
 
         autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -583,6 +582,18 @@ call plug#begin('~/.config/nvim/plugged')
         let col = col('.') - 1
         return !col || getline('.')[col - 1]  =~# '\s'
         endfunction
+
+        " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+        " position. Coc only does snippet and additional edit on confirm.
+        if exists('*complete_info')
+            inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+        else
+            imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+        endif
+
+        " For enhanced <CR> experience with coc-pairs checkout :h coc#on_enter()
+        inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
     " }}}
 " }}}
 
@@ -604,7 +615,10 @@ call plug#begin('~/.config/nvim/plugged')
         Plug 'digitaltoad/vim-pug', { 'for': ['jade', 'pug'] }
 
 		" nunjucks support
-        Plug 'niftylettuce/vim-jinja', { 'for': 'njk' }
+        Plug 'Glench/Vim-Jinja2-Syntax', { 'for': 'njk' }
+
+        " liquid support
+        Plug 'tpope/vim-liquid'
     " }}}
 
     " JavaScript {{{

@@ -26,6 +26,13 @@
     "explorer.file.column.git.icon.untracked": "?",
     "explorer.file.column.git.icon.modified": "✹",
     "explorer.file.column.git.icon.ignored": "☒",
-    "explorer.openAction.changeDirectory": false,
-    "eslint.enable": false
+    "explorer.openAction.for.directory": "expandOrCollapse",
+    "explorer.previewAction.onHover": false,
+    "explorer.keyMappings": {
+        "<cr>": ["expandable?", "expandOrCollapse", "open"]
+    },
+    "eslint.enable": false,
+    "diagnostic-languageserver.filetypes": {
+        "sh": "shellcheck"
+    }
 }
