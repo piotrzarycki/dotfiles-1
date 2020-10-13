@@ -27,6 +27,9 @@ call plug#begin('~/.config/nvim/plugged')
         " show results of substition as they're happening
         " but don't open a split
         set inccommand=nosplit
+        " make possibility to exit from term using ESC 
+        tnoremap <Esc> <C-\><C-n>
+        tnoremap <C-v><Esc> <Esc>
     endif
 
     set backspace=indent,eol,start " make backspace behave in a sane manner
@@ -117,7 +120,6 @@ call plug#begin('~/.config/nvim/plugged')
 
     " highlight conflicts
     match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-
     " Load colorschemes
     Plug 'chriskempson/base16-vim'
     Plug 'joshdick/onedark.vim'
@@ -334,6 +336,9 @@ call plug#begin('~/.config/nvim/plugged')
 
     " detect indent style (tabs vs. spaces)
     Plug 'tpope/vim-sleuth'
+
+    " vim test
+    Plug 'janko/vim-test'
 
     " Startify: Fancy startup screen for vim {{{
         Plug 'mhinz/vim-startify'
@@ -694,7 +699,3 @@ call plug#end()
     highlight htmlArg cterm=italic term=italic gui=italic
     highlight xmlAttrib cterm=italic term=italic gui=italic
     " highlight Type cterm=italic term=italic gui=italic
-    highlight Normal ctermbg=none
-" }}}
-
-" vim:set foldmethod=marker foldlevel=0
