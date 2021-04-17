@@ -1,4 +1,4 @@
-" .vimrc / init.vim
+    " .vimrc / init.vim
 " The following vim/neovim configuration works for both Vim and NeoVim
 
 " ensure vim-plug is installed and then load it
@@ -123,7 +123,7 @@ call plug#begin('~/.config/nvim/plugged')
     " Load colorschemes
     Plug 'chriskempson/base16-vim'
     Plug 'joshdick/onedark.vim'
-
+    Plug 'chrisbra/csv.vim'
     " LightLine {{{
         Plug 'itchyny/lightline.vim'
         Plug 'nicknisi/vim-base16-lightline'
@@ -340,6 +340,32 @@ call plug#begin('~/.config/nvim/plugged')
     " vim test
     Plug 'janko/vim-test'
 
+    let g:test#javascript#mocha#file_pattern = '.*' 
+
+    nmap <silent> t<C-n> :TestNearest<CR>
+    nmap <silent> t<C-f> :TestFile<CR>
+    nmap <silent> t<C-s> :TestSuite<CR>
+    nmap <silent> t<C-l> :TestLast<CR>
+    nmap <silent> t<C-g> :TestVisit<CR>
+
+    let g:vimspector_enable_mappings = 'HUMAN'
+    " vim spector 
+    Plug 'puremourning/vimspector'
+
+    function! JestStrategy(cmd)
+        let testName = matchlist(a:cmd, '\v -t ''(.*)''')[1]
+        call vimspector#LaunchWithSettings( #{ configuration: 'jest', TestName: testName } )
+    endfunction
+
+    let g:test#custom_strategies = {'jest': function('JestStrategy')}
+    nmap <leader>vi <Plug>VimspectorBalloonEval
+    xmap <leader>vi <Plug>VimspectorBalloonEval
+
+    " for normal mode - the word under the cursor
+    nmap <Leader>di <Plug>VimspectorBalloonEval
+    " for visual mode, the visually selected text
+    xmap <Leader>di <Plug>VimspectorBalloonEval
+
     " Startify: Fancy startup screen for vim {{{
         Plug 'mhinz/vim-startify'
 
@@ -376,7 +402,7 @@ call plug#begin('~/.config/nvim/plugged')
 
     " Close buffers but keep splits
     Plug 'moll/vim-bbye'
-    nmap <leader>b :Bdelete<cr>
+    nmap <leader>b :Bdelete!<cr>
 
     " Writing in vim {{{{
         Plug 'junegunn/goyo.vim'
@@ -437,8 +463,17 @@ call plug#begin('~/.config/nvim/plugged')
         \ }
     " }}}
 
+    let $FZF_DEFAULT_OPTS = "--delimiter ':' --preview-window '+{2}-20'"
+    
+    function! LcnFzfSelectionUI(source, sink) abort
+        return fzf#run(fzf#wrap(fzf#vim#with_preview({'source': a:source, 'sink': a:sink})))
+    endfunction
+    
+    let g:LanguageClient_selectionUI = function('LcnFzfSelectionUI')
+    
     " FZF {{{
-        Plug '/usr/local/opt/fzf'
+    
+        Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
         Plug 'junegunn/fzf.vim'
         let g:fzf_layout = { 'down': '~25%' }
 
@@ -518,7 +553,7 @@ call plug#begin('~/.config/nvim/plugged')
 
     " coc {{{
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
+        let g:coc_node_path = '/opt/node-v14.16.0/bin/node'
         let g:coc_global_extensions = [
         \ 'coc-css',
         \ 'coc-json',
@@ -538,9 +573,10 @@ call plug#begin('~/.config/nvim/plugged')
 
         autocmd CursorHold * silent call CocActionAsync('highlight')
 
-        " coc-prettier
+        " coc-prettir
         command! -nargs=0 Prettier :CocCommand prettier.formatFile
         nmap <leader>f :CocCommand prettier.formatFile<cr>
+        
 
         " coc-git
         nmap [g <Plug>(coc-git-prevchunk)
@@ -556,6 +592,7 @@ call plug#begin('~/.config/nvim/plugged')
         nmap <silent> gi <Plug>(coc-implementation)
         nmap <silent> gr <Plug>(coc-references)
         nmap <silent> gh <Plug>(coc-doHover)
+        nmap <leader>do <Plug>(coc-codeaction)
 
         " diagnostics navigation
         nmap <silent> [c <Plug>(coc-diagnostic-prev)
@@ -664,7 +701,9 @@ call plug#begin('~/.config/nvim/plugged')
         nmap <leader>m :MarkedOpen!<cr>
         nmap <leader>mq :MarkedQuit<cr>
         nmap <leader>* *<c-o>:%s///gn<cr>
-    " }}}
+    " }}}" 
+        " If you have nodejs and yarn
+        Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
     " JSON {{{
         Plug 'elzr/vim-json', { 'for': 'json' }
