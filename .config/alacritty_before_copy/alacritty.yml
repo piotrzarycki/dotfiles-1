@@ -1,0 +1,273 @@
+# Configuration for Alacritty, the GPU enhanced terminal emulator
+
+
+# Any items in the `env` entry below will be added as
+# environment variables. Some entries may override variables
+# set by alacritty it self.
+# env:
+  # TERM env customization.
+  #
+  # If this property is not set, alacritty will set it to xterm-256color.
+  #
+  # Note that some xterm terminfo databases don't declare support for italics.
+  # You can verify this by checking for the presence of `smso` and `sitm` in
+  # `infocmp xterm-256color`.
+scrolling:
+  # How many lines of scrollback to keep,
+  # '0' will disable scrolling.
+  history: 10000
+
+  # Number of lines the viewport will move for every line
+  # scrolled when scrollback is enabled (history > 0).
+  multiplier: 3
+
+  # Faux Scrolling
+  #
+  # The `faux_multiplier` setting controls the number
+  # of lines the terminal should scroll when the alternate
+  # screen buffer is active. This is used to allow mouse
+  # scrolling for applications like `man`.
+  #
+  # To disable this completely, set `faux_multiplier` to 0.
+  faux_multiplier: 3
+
+  # Automatically scroll to the bottom when new text is written
+  # to the terminal.
+  auto_scroll: false
+window:
+  # Window dimensions in character columns and lines
+  # Falls back to size specified by window manager if set to 0x0.
+  # (changes require restart)
+  dimensions:
+    columns: 0
+    lines: 0
+
+  # Adds this many blank pixels of padding around the window
+  # Units are physical pixels; this is not DPI aware.
+  # (change requires restart)
+  padding:
+    x: 2
+    y: 2
+
+  # Window decorations
+  # Setting this to false will result in window without borders and title bar.
+  decorations: full
+
+# Display tabs using this many cells (changes require restart)
+tabspaces: 8
+
+# When true, bold text is drawn using the bright variant of colors.
+draw_bold_text_with_bright_colors: true
+
+# Font configuration (changes require restart)
+#
+# Important font attributes like antialiasing, subpixel aa, and hinting can be
+# controlled through fontconfig. Specifically, the following attributes should
+# have an effect:
+#
+# * hintstyle
+# * antialias
+# * lcdfilter
+# * rgba
+#
+# For instance, if you wish to disable subpixel antialiasing, you might set the
+# rgba property to "none". If you wish to completely disable antialiasing, you
+# can set antialias to false.
+#
+# Please see these resources for more information on how to use fontconfig
+#
+# * https://wiki.archlinux.org/index.php/font_configuration#Fontconfig_configuration
+# * file:///usr/share/doc/fontconfig/fontconfig-user.html
+font:
+  # The normal (roman) font face to use.
+  normal:
+    # family: monospace # should be "Menlo" or something on macOS.
+    # family: "PragmataPro Mono"
+    #family: "PragmataPro"
+    # Style can be specified to pick a specific face.
+    # family: "Iosevka"
+    # family: "SF Mono"
+    # family: "Inconsolata"
+    # family: CamingoCode
+    family: "JetBrainsMono Nerd Font"
+    # family: "Source Code Pro"
+    # family: "Gintronic Light"
+    # family: Hasklig
+    # family: "Operator Mono Book"
+    # family: "Office Code Pro D"
+    # family: "Fantasque Sans Mono"
+    # family: "IBM Plex Mono"
+    # family: "Code New Roman"
+    style: Bold Italic
+
+  # The bold font face
+  bold:
+    # family: monospace # should be "Menlo" or something on macOS.
+    #family: "PragmataPro"
+    # family: "PragmataPro Mono"
+    # Style can be specified to pick a specific face.
+    # family: "Iosevka"
+    # family: "SF Mono"
+    # family: "Inconsolata"
+    # family: CamingoCode
+    # family: "Source Code Pro"
+    # family: "Gintronic"
+    # family: Hasklig
+    #family: "Operator Mono Bold"
+    # family: "Office Code Pro D"
+    # family: "Fantasque Sans Mono"
+    # family: "IBM Plex Mono"
+    # family: "Code New Roman"
+    style: Bold Italic
+
+  # The italic font face
+  italic:
+    # family: monospace # should be "Menlo" or something on macOS.
+    #family: "PragmataPro"
+    # family: "PragmataPro Mono"
+    # Style can be specified to pick a specific face.
+    # family: "Iosevka"
+    # family: "SF Mono"
+    # family: "Inconsolata"
+    # family: CamingoCode
+    # family: "Source Code Pro"
+    # family: "Gintronic Light"
+    # family: Hasklig
+    family: "JetBrainsMono Nerd Font"
+    # family: "Office Code Pro D"
+    # family: "Fantasque Sans Mono"
+    # family: "IBM Plex Mono"
+    # family: "Code New Roman"
+    style: Italic
+
+  # Point size of the font
+  size: 10   # PragmataPro
+  # size: 10.0   # SF Mono
+  # size: 19.25  # Gintronic
+  # size: 9.75   # Iosevka
+  # size: 10.75  # Hasklig
+  # size: 11.00  # Hasklig, Office Code Pro
+  # size: 10.0   # Inconsolata
+  # size: 10.75  # CamingoCode
+  # size: 22.50  # Inconsolata
+  #size: 9.75   # Operator Mono
+  # size: 21.50  # Fantasque Sans Mono
+  # size: 10.0   # IBM Plex Mono
+  # size: 9.0   # Code New Roman
+
+  # Offset is the extra space around each character. offset.y can be thought of
+  # as modifying the linespacing, and offset.x as modifying the letter spacing.
+  offset:
+    # Gintronic
+    # x: -3
+    # y: -1
+
+    # PragmataPro
+    x: 0
+    y: -1
+
+    # Inconsolata
+    # x: 0
+    # y: 0
+
+    # SF Mono
+    # x: -1
+    # y: 0
+
+    # Iosevka Term
+    # x: -1
+    # y: -2
+
+    # Hasklig
+    # x: -2
+    # y: -4
+
+    # CamingoCode
+    # x: -1
+    # y: -3
+
+    # Operator Mono
+    # x: -1
+    # y: -1
+
+    # Office Code Pro
+    # x: -2
+    # y: -3
+
+    # Fantasque Sans Mono
+    # x: -1
+    # y: 0
+
+    # IBM Plex Mono
+    # x: -2
+    # y: -3
+
+    # Code New Roman
+    # x: 0
+    # y: -1
+
+  # Glyph offset determines the locations of the glyphs within their cells with
+  # the default being at the bottom. Increase the x offset to move the glyph to
+  # the right, increase the y offset to move the glyph upward.
+  glyph_offset:
+    # Gintronic
+    # x: -1
+    # y: -3
+
+    # PragmataPro, Iosevka Term, SF Mono, Fantasque Sans Mono, Inconsolata,
+    x: 0
+    y: 0
+
+    # Operator Mono
+    # x: 0
+    # y: -1
+
+    # Hasklig
+    # x: -1
+    # y: -2
+ 
+    # IBM Plex Mono
+    # x: 0.0
+    # y: -1.0
+
+    # Office Code Pro
+    # x: -2
+    # y: -1
+
+  # OS X only: use thin stroke font rendering. Thin strokes are suitable
+  # for retina displays, but for non-retina you probably want this set to
+  # false.
+  use_thin_strokes: true
+
+# Should display the render timer
+render_timer: false
+
+
+# Colors (Wombat)
+colors:
+  # Default colors
+  primary:
+    background: '0x1f1f1f'
+    foreground: '0xe5e1d8'
+
+  # Normal colors
+  normal:
+    black:   '0x000000'
+    red:     '0xf7786d'
+    green:   '0xbde97c'
+    yellow:  '0xefdfac'
+    blue:    '0x6ebaf8'
+    magenta: '0xef88ff'
+    cyan:    '0x90fdf8'
+    white:   '0xe5e1d8'
+
+  # Bright colors
+  bright:
+    black:   '0xb4b4b4'
+    red:     '0xf99f92'
+    green:   '0xe3f7a1'
+    yellow:  '0xf2e9bf'
+    blue:    '0xb3d2ff'
+    magenta: '0xe5bdff'
+    cyan:    '0xc2fefa'
+    white:   '0xffffff'
