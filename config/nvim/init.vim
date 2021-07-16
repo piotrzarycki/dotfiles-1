@@ -1,4 +1,4 @@
-    " .vimrc / init.vim
+    
 " The following vim/neovim configuration works for both Vim and NeoVim
 
 " ensure vim-plug is installed and then load it
@@ -120,6 +120,7 @@ call plug#begin('~/.config/nvim/plugged')
 
     " highlight conflicts
     match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+    Plug 'codota/tabnine-vim'
     " Load colorschemes
     Plug 'chriskempson/base16-vim'
     Plug 'joshdick/onedark.vim'
@@ -304,6 +305,27 @@ call plug#begin('~/.config/nvim/plugged')
         autocmd FileType qf nmap <buffer> q :q<cr>
     augroup END
 " }}}
+    
+    Plug 'skanehira/docker-compose.vim'
+
+    " Fuzzy Finder
+    Plug 'nvim-lua/popup.nvim'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
+
+    " Find files using Telescope command-line sugar.
+    nnoremap <leader>ff <cmd>Telescope find_files<cr>
+    nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+    nnoremap <leader>fb <cmd>Telescope buffers<cr>
+    nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+    Plug 'kyazdani42/nvim-web-devicons'
+
+
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
+
+    Plug 'ThePrimeagen/git-worktree.nvim'
 
 " General Functionality {{{
     " better terminal integration
@@ -593,6 +615,9 @@ call plug#begin('~/.config/nvim/plugged')
         nmap <silent> gr <Plug>(coc-references)
         nmap <silent> gh <Plug>(coc-doHover)
         nmap <leader>do <Plug>(coc-codeaction)
+        xmap <leader>a  <Plug>(coc-codeaction-selected)
+        nmap <leader>a  <Plug>(coc-codeaction-selected)
+
 
         " diagnostics navigation
         nmap <silent> [c <Plug>(coc-diagnostic-prev)
@@ -716,6 +741,17 @@ call plug#begin('~/.config/nvim/plugged')
 
 call plug#end()
 
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ignore_install = { "javascript" }, -- List of parsers to ignore installing
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { "c", "rust" },  -- list of language that will be disabled
+  },
+}
+EOF
 " Colorscheme and final setup {{{
     " This call must happen after the plug#end() call to ensure
     " that the colorschemes have been loaded
