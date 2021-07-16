@@ -1,4 +1,5 @@
 xrandr --setprovideroutputsource modesetting NVIDIA-0
+xrandr --auto
 export _JAVA_AWT_WM_NONREPARENTING=1 
 export AWT_TOOLKIT=MToolkit 
 source /etc/X11/xinit/xinitrc.d/50-systemd-user.sh
