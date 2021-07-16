@@ -1,4 +1,4 @@
-" .vimrc / init.vim
+    
 " The following vim/neovim configuration works for both Vim and NeoVim
 
 " ensure vim-plug is installed and then load it
@@ -27,6 +27,9 @@ call plug#begin('~/.config/nvim/plugged')
         " show results of substition as they're happening
         " but don't open a split
         set inccommand=nosplit
+        " make possibility to exit from term using ESC 
+        tnoremap <Esc> <C-\><C-n>
+        tnoremap <C-v><Esc> <Esc>
     endif
 
     set backspace=indent,eol,start " make backspace behave in a sane manner
@@ -117,11 +120,11 @@ call plug#begin('~/.config/nvim/plugged')
 
     " highlight conflicts
     match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-
+    Plug 'codota/tabnine-vim'
     " Load colorschemes
     Plug 'chriskempson/base16-vim'
     Plug 'joshdick/onedark.vim'
-
+    Plug 'chrisbra/csv.vim'
     " LightLine {{{
         Plug 'itchyny/lightline.vim'
         Plug 'nicknisi/vim-base16-lightline'
@@ -302,11 +305,197 @@ call plug#begin('~/.config/nvim/plugged')
         autocmd FileType qf nmap <buffer> q :q<cr>
     augroup END
 " }}}
+    
+    Plug 'skanehira/docker-compose.vim'
+
+    " Fuzzy Finder
+    Plug 'nvim-lua/popup.nvim'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
+
+    " Find files using Telescope command-line sugar.
+    nnoremap <leader>ff <cmd>Telescope find_files<cr>
+    nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+    nnoremap <leader>fb <cmd>Telescope buffers<cr>
+    nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+    Plug 'kyazdani42/nvim-web-devicons'
+
+
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
+
+    Plug 'ThePrimeagen/git-worktree.nvim'
 
 " General Functionality {{{
     " better terminal integration
+    " substitute, search, and abbreviate multiple variants of a word
+    Plug 'tpope/vim-abolish'
+
+    " easy commenting motions
+    Plug 'tpope/vim-commentary'
+
+    " mappings which are simply short normal mode aliases for commonly used ex commands
+    Plug 'tpope/vim-unimpaired'
+
+    " endings for html, xml, etc. - ehances surround
+    Plug 'tpope/vim-ragtag'
+
+    " mappings to easily delete, change and add such surroundings in pairs, such as quotes, parens, etc.
+    Plug 'tpope/vim-surround'
+
+    " tmux integration for vim
+    Plug 'benmills/vimux'
+
+    " enables repeating other supported plugins with the . command
+    Plug 'tpope/vim-repeat'
+
+    " .editorconfig support
+    Plug 'editorconfig/editorconfig-vim'
+
+    " single/multi line code handler: gS - split one line into multiple, gJ - combine multiple lines into one
+    Plug 'AndrewRadev/splitjoin.vim'
+
+    " detect indent style (tabs vs. spaces)
+    Plug 'tpope/vim-sleuth'
+
+    " vim test
+    Plug 'janko/vim-test'
+
+    let g:test#javascript#mocha#file_pattern = '.*' 
+
+    nmap <silent> t<C-n> :TestNearest<CR>
+    nmap <silent> t<C-f> :TestFile<CR>
+    nmap <silent> t<C-s> :TestSuite<CR>
+    nmap <silent> t<C-l> :TestLast<CR>
+    nmap <silent> t<C-g> :TestVisit<CR>
+
+    let g:vimspector_enable_mappings = 'HUMAN'
+    " vim spector 
+    Plug 'puremourning/vimspector'
+
+    function! JestStrategy(cmd)
+        let testName = matchlist(a:cmd, '\v -t ''(.*)''')[1]
+        call vimspector#LaunchWithSettings( #{ configuration: 'jest', TestName: testName } )
+    endfunction
+
+    let g:test#custom_strategies = {'jest': function('JestStrategy')}
+    nmap <leader>vi <Plug>VimspectorBalloonEval
+    xmap <leader>vi <Plug>VimspectorBalloonEval
+
+    " for normal mode - the word under the cursor
+    nmap <Leader>di <Plug>VimspectorBalloonEval
+    " for visual mode, the visually selected text
+    xmap <Leader>di <Plug>VimspectorBalloonEval
+
+    " Startify: Fancy startup screen for vim {{{
+        Plug 'mhinz/vim-startify'
+
+        " Don't change to directory when selecting a file
+        let g:startify_files_number = 5
+        let g:startify_change_to_dir = 0
+        let g:startify_custom_header = [ ]
+        let g:startify_relative_path = 1
+        let g:startify_use_env = 1
+
+        " Custom startup list, only show MRU from current directory/project
+        let g:startify_lists = [
+        \  { 'type': 'dir',       'header': [ 'Files '. getcwd() ] },
+        \  { 'type': function('helpers#startify#listcommits'), 'header': [ 'Recent Commits' ] },
+        \  { 'type': 'sessions',  'header': [ 'Sessions' ]       },
+        \  { 'type': 'bookmarks', 'header': [ 'Bookmarks' ]      },
+        \  { 'type': 'commands',  'header': [ 'Commands' ]       },
+        \ ]
+
+        let g:startify_commands = [
+        \   { 'up': [ 'Update Plugins', ':PlugUpdate' ] },
+        \   { 'ug': [ 'Upgrade Plugin Manager', ':PlugUpgrade' ] },
+        \ ]
+
+        let g:startify_bookmarks = [
+            \ { 'c': '~/.config/nvim/init.vim' },
+            \ { 'g': '~/.gitconfig' },
+            \ { 'z': '~/.zshrc' }
+        \ ]
+
+        autocmd User Startified setlocal cursorline
+        nmap <leader>st :Startify<cr>
+    " }}}
+
+    " Close buffers but keep splits
+    Plug 'moll/vim-bbye'
+    nmap <leader>b :Bdelete!<cr>
+
+    " Writing in vim {{{{
+        Plug 'junegunn/goyo.vim'
+
+        autocmd! User GoyoEnter nested call helpers#goyo#enter()
+        autocmd! User GoyoLeave nested call helpers#goyo#leave()
+    " }}}
+
+    " context-aware pasting
+    Plug 'sickill/vim-pasta'
+
+    " NERDTree {{{
+        Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
+        Plug 'Xuyuanp/nerdtree-git-plugin'
+        Plug 'ryanoasis/vim-devicons'
+        Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+        let g:WebDevIconsOS = 'Darwin'
+        let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+        let g:DevIconsEnableFoldersOpenClose = 1
+        let g:DevIconsEnableFolderExtensionPatternMatching = 1
+        let NERDTreeDirArrowExpandable = "\u00a0" " make arrows invisible
+        let NERDTreeDirArrowCollapsible = "\u00a0" " make arrows invisible
+        let NERDTreeNodeDelimiter = "\u263a" " smiley face
+
+        augroup nerdtree
+            autocmd!
+            autocmd FileType nerdtree setlocal nolist " turn off whitespace characters
+            autocmd FileType nerdtree setlocal nocursorline " turn off line highlighting for performance
+        augroup END
+
+        " Toggle NERDTree
+        function! ToggleNerdTree()
+            if @% != "" && @% !~ "Startify" && (!exists("g:NERDTree") || (g:NERDTree.ExistsForTab() && !g:NERDTree.IsOpen()))
+                :NERDTreeFind
+            else
+                :NERDTreeToggle
+            endif
+        endfunction
+        " toggle nerd tree
+        nmap <silent> <leader>n :call ToggleNerdTree()<cr>
+        " find the current file in nerdtree without needing to reload the drawer
+        nmap <silent> <leader>y :NERDTreeFind<cr>
+
+        let NERDTreeShowHidden=1
+        " let NERDTreeDirArrowExpandable = '▷'
+        " let NERDTreeDirArrowCollapsible = '▼'
+        let g:NERDTreeIndicatorMapCustom = {
+        \ "Modified"  : "✹",
+        \ "Staged"    : "✚",
+        \ "Untracked" : "✭",
+        \ "Renamed"   : "➜",
+        \ "Unmerged"  : "═",
+        \ "Deleted"   : "✖",
+        \ "Dirty"     : "✗",
+        \ "Clean"     : "✔︎",
+        \ 'Ignored'   : '☒',
+        \ "Unknown"   : "?"
+        \ }
+    " }}}
+
+    let $FZF_DEFAULT_OPTS = "--delimiter ':' --preview-window '+{2}-20'"
+    
+    function! LcnFzfSelectionUI(source, sink) abort
+        return fzf#run(fzf#wrap(fzf#vim#with_preview({'source': a:source, 'sink': a:sink})))
+    endfunction
+    
+    let g:LanguageClient_selectionUI = function('LcnFzfSelectionUI')
+    
     " FZF {{{
-        Plug '/usr/local/opt/fzf'
+    
+        Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
         Plug 'junegunn/fzf.vim'
         let g:fzf_layout = { 'down': '~25%' }
 
@@ -386,7 +575,7 @@ call plug#begin('~/.config/nvim/plugged')
 
     " coc {{{
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
+        let g:coc_node_path = '/opt/node-v14.16.0/bin/node'
         let g:coc_global_extensions = [
         \ 'coc-css',
         \ 'coc-json',
@@ -406,7 +595,10 @@ call plug#begin('~/.config/nvim/plugged')
 
         autocmd CursorHold * silent call CocActionAsync('highlight')
 
-        " coc-prettier
+        " coc-prettir
+        command! -nargs=0 Prettier :CocCommand prettier.formatFile
+        nmap <leader>f :CocCommand prettier.formatFile<cr>
+        
 
         " coc-git
         nmap [g <Plug>(coc-git-prevchunk)
@@ -422,6 +614,10 @@ call plug#begin('~/.config/nvim/plugged')
         nmap <silent> gi <Plug>(coc-implementation)
         nmap <silent> gr <Plug>(coc-references)
         nmap <silent> gh <Plug>(coc-doHover)
+        nmap <leader>do <Plug>(coc-codeaction)
+        xmap <leader>a  <Plug>(coc-codeaction-selected)
+        nmap <leader>a  <Plug>(coc-codeaction-selected)
+
 
         " diagnostics navigation
         nmap <silent> [c <Plug>(coc-diagnostic-prev)
@@ -508,6 +704,7 @@ call plug#begin('~/.config/nvim/plugged')
     " }}}
 
     " TypeScript {{{
+        Plug 'leafgarland/typescript-vim', { 'for': ['typescript', 'typescript.tsx'] }
         " Plug 'Shougo/vimproc.vim', { 'do': 'make' } TODO what still needs this?
     " }}}
 
@@ -529,7 +726,9 @@ call plug#begin('~/.config/nvim/plugged')
         nmap <leader>m :MarkedOpen!<cr>
         nmap <leader>mq :MarkedQuit<cr>
         nmap <leader>* *<c-o>:%s///gn<cr>
-    " }}}
+    " }}}" 
+        " If you have nodejs and yarn
+        Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
     " JSON {{{
         Plug 'elzr/vim-json', { 'for': 'json' }
@@ -542,6 +741,17 @@ call plug#begin('~/.config/nvim/plugged')
 
 call plug#end()
 
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ignore_install = { "javascript" }, -- List of parsers to ignore installing
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { "c", "rust" },  -- list of language that will be disabled
+  },
+}
+EOF
 " Colorscheme and final setup {{{
     " This call must happen after the plug#end() call to ensure
     " that the colorschemes have been loaded
@@ -564,7 +774,3 @@ call plug#end()
     highlight htmlArg cterm=italic term=italic gui=italic
     highlight xmlAttrib cterm=italic term=italic gui=italic
     " highlight Type cterm=italic term=italic gui=italic
-    highlight Normal ctermbg=none
-" }}}
-
-" vim:set foldmethod=marker foldlevel=0
