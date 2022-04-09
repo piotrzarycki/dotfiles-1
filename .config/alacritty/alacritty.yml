@@ -28,13 +28,17 @@ scrolling:
   # screen buffer is active. This is used to allow mouse
   # scrolling for applications like `man`.
   #
-  # To disable this completely, set `faux_multiplier` to 0.
+  # To disable this completely, set `faux_multiplier` to 1.
   faux_multiplier: 3
 
   # Automatically scroll to the bottom when new text is written
   # to the terminal.
   auto_scroll: false
 window:
+  #
+  # Window opacity as a floating point number from `0.0` to `1.0`.
+  # The value `0.0` is completely transparent and `1.0` is opaque.
+  opacity: 0.8
   # Window dimensions in character columns and lines
   # Falls back to size specified by window manager if set to 0x0.
   # (changes require restart)
@@ -89,7 +93,9 @@ font:
     # family: "SF Mono"
     # family: "Inconsolata"
     # family: CamingoCode
-    family: "JetBrainsMono Nerd Font"
+    family: "VictorMono Nerd Font"
+    # family: "JetBrainsMono Nerd Font"
+    # family: "BlexMono Nerd Font"
     # family: "Source Code Pro"
     # family: "Gintronic Light"
     # family: Hasklig
@@ -98,7 +104,7 @@ font:
     # family: "Fantasque Sans Mono"
     # family: "IBM Plex Mono"
     # family: "Code New Roman"
-    style: Bold Italic
+    style: Bold
 
   # The bold font face
   bold:
@@ -138,10 +144,12 @@ font:
     # family: "Fantasque Sans Mono"
     # family: "IBM Plex Mono"
     # family: "Code New Roman"
-    style: Italic
+    # family: "VictorMono Nerd Font"
+    style: Bold Italic
 
   # Point size of the font
-  size: 10   # PragmataPro
+  size: 10.0   # JetBrainsMono
+  # size: 11.5   # VictorMono
   # size: 10.0   # SF Mono
   # size: 19.25  # Gintronic
   # size: 9.75   # Iosevka

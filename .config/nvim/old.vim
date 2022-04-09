@@ -120,7 +120,6 @@ call plug#begin('~/.config/nvim/plugged')
 
     " highlight conflicts
     match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-    Plug 'codota/tabnine-vim'
     " Load colorschemes
     Plug 'chriskempson/base16-vim'
     Plug 'joshdick/onedark.vim'
@@ -314,6 +313,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'nvim-telescope/telescope.nvim'
 
     " Find files using Telescope command-line sugar.
+    nnoremap <leader>fw <cmd>lua require('telescope').extensions.git_worktree.git_worktrees()<cr>
     nnoremap <leader>ff <cmd>Telescope find_files<cr>
     nnoremap <leader>fg <cmd>Telescope live_grep<cr>
     nnoremap <leader>fb <cmd>Telescope buffers<cr>
@@ -387,6 +387,8 @@ call plug#begin('~/.config/nvim/plugged')
     nmap <Leader>di <Plug>VimspectorBalloonEval
     " for visual mode, the visually selected text
     xmap <Leader>di <Plug>VimspectorBalloonEval
+    " close vimspector
+    nmap <Leader>dc :VimspectorReset<CR>
 
     " Startify: Fancy startup screen for vim {{{
         Plug 'mhinz/vim-startify'
@@ -737,7 +739,13 @@ call plug#begin('~/.config/nvim/plugged')
 
     Plug 'ekalinin/Dockerfile.vim'
     Plug 'jparise/vim-graphql'
-" }}}
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-treesitter/nvim-treesitter'
+
+    Plug 'mfussenegger/nvim-dap'
+    Plug 'rcarriga/nvim-dap-ui'
+    Plug 'theHamsta/nvim-dap-virtual-text'
+
 
 call plug#end()
 
