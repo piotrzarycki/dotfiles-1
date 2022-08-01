@@ -1,5 +1,3 @@
-
-local cmd = vim.cmd
 local g = vim.g
 local fn = vim.fn
 local utils = require("utils")
@@ -58,16 +56,19 @@ nmap("<leader>gb", ":G blame<cr>")
 Plug "mattn/emmet-vim"
 
 -- match tags in html, similar to paren support
-Plug("gregsexton/MatchTag", { ["for"] = "html" })
+Plug("gregsexton/MatchTag", {["for"] = "html"})
 
 -- html5 support
-Plug("othree/html5.vim", { ["for"] = "html" })
+Plug("othree/html5.vim", {["for"] = "html"})
 
 -- mustache support
 Plug "mustache/vim-mustache-handlebars"
 
 -- pug / jade support
-Plug("digitaltoad/vim-pug", { ["for"] = { "jade", "pug" } })
+Plug("digitaltoad/vim-pug", {["for"] = {"jade", "pug"}})
+
+-- nunjucks support
+-- Plug "niftylettuce/vim-jinja"
 
 -- edit quickfix list
 Plug "itchyny/vim-qfedit"
@@ -75,21 +76,19 @@ Plug "itchyny/vim-qfedit"
 -- liquid support
 Plug "tpope/vim-liquid"
 
-Plug "janko/vim-test"
-
-Plug("othree/yajs.vim", { ["for"] = { "javascript", "javascript.jsx", "html" } })
--- Plug "pangloss/vim-javascript", { ["for"] = ["javascript", "javascript.jsx", "html"] }
-Plug("moll/vim-node", { ["for"] = "javascript" })
+Plug("othree/yajs.vim", {["for"] = {"javascript", "javascript.jsx", "html"}})
+-- Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx', 'html'] }
+Plug("moll/vim-node", {["for"] = "javascript"})
 Plug "MaxMEllon/vim-jsx-pretty"
 g.vim_jsx_pretty_highlight_close_tag = 1
-Plug("leafgarland/typescript-vim", { ["for"] = { "typescript", "typescript.tsx"} })
+Plug("leafgarland/typescript-vim", {["for"] = {"typescript", "typescript.tsx"}})
 
-Plug("wavded/vim-stylus", { ["for"] = { "stylus", "markdown" }})
-Plug("groenewege/vim-less", { ["for"] = "less" })
-Plug("hail2u/vim-css3-syntax", { ["for"] = "css" })
-Plug("cakebaker/scss-syntax.vim", { ["for"] = "scss" })
-Plug("stephenway/postcss.vim", { ["for"] = "css" })
-Plug("udalov/kotlin-vim")
+Plug("wavded/vim-stylus", {["for"] = {"stylus", "markdown"}})
+Plug("groenewege/vim-less", {["for"] = "less"})
+Plug("hail2u/vim-css3-syntax", {["for"] = "css"})
+Plug("cakebaker/scss-syntax.vim", {["for"] = "scss"})
+Plug("stephenway/postcss.vim", {["for"] = "css"})
+Plug "udalov/kotlin-vim"
 
 -- Open markdown files in Marked.app - mapped to <leader>m
 Plug("itspriddle/vim-marked", {["for"] = "markdown", on = "MarkedOpen"})
@@ -97,7 +96,7 @@ nmap("<leader>m", ":MarkedOpen!<cr>")
 nmap("<leader>mq", ":MarkedQuit<cr>")
 nmap("<leader>*", "*<c-o>:%s///gn<cr>")
 
-Plug("elzr/vim-json", { ["for"] = "json" })
+Plug("elzr/vim-json", {["for"] = "json"})
 g.vim_json_syntax_conceal = 0
 
 Plug "ekalinin/Dockerfile.vim"
@@ -168,9 +167,12 @@ Plug "alvarosevilla95/luatab.nvim"
 
 -- enable copilot support for Neovim
 Plug "github/copilot.vim"
-
 -- improve the default neovim interfaces, such as refactoring
 Plug "stevearc/dressing.nvim"
+
+-- Navigate a code base with a really slick UI
+Plug "nvim-telescope/telescope.nvim"
+Plug "nvim-telescope/telescope-rg.nvim"
 
 -- Startup screen for Neovim
 Plug "startup-nvim/startup.nvim"
@@ -179,8 +181,8 @@ Plug "startup-nvim/startup.nvim"
 Plug "$HOMEBREW_PREFIX/opt/fzf"
 Plug "junegunn/fzf.vim"
 -- Power telescope with FZF
-Plug("nvim-telescope/telescope-fzf-native.nvim", { ["do"] = "make" })
--- Telescope
+Plug("nvim-telescope/telescope-fzf-native.nvim", {["do"] = "make"})
+
 Plug "folke/trouble.nvim"
 Plug "nvim-lua/popup.nvim"
 Plug "nvim-lua/plenary.nvim"
@@ -188,17 +190,28 @@ Plug "nvim-lua/plenary.nvim"
 Plug "nvim-telescope/telescope.nvim"
 Plug "puremourning/vimspector"
 
+-- vim test
+Plug "janko/vim-test"
+-- go lang
+--Plug("ray-x/go.nvim", {["ft"] = { "go" } })
 plugEnd()
 
 
 require("nvim-autopairs").setup()
 require("colorizer").setup()
 require("plugins.gitsigns")
+require("plugins.trouble")
+require("plugins.fzf")
 require("plugins.startify")
 require("plugins.nvimtree")
+require("plugins.formatter")
+require("plugins.tabline")
+require("plugins.feline")
+require("plugins.startup")
 require("plugins.treesitter")
 require("plugins.telescope")
 require("plugins.completion")
 require("plugins.lspconfig")
 require("plugins.vimtest")
 require("plugins.vimspector")
+
