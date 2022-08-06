@@ -234,17 +234,6 @@ lspconfig.tsserver.setup(
   )
 )
 
-lspconfig.denols.setup(
-  make_config(
-    function(config)
-      config.root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc")
-      config.init_options = {
-        lint = true
-      }
-      return config
-    end
-  )
-)
 
 lspconfig.sumneko_lua.setup(
   make_config(

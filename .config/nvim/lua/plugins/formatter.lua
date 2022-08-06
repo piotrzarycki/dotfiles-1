@@ -8,7 +8,7 @@ if vim.fn.executable(prettier_path) ~= 1 then
 end
 
 local function is_deno_project()
-  return utils.has_active_lsp_client("denols")
+  return false
 end
 
 local function prettier_config()
@@ -72,12 +72,12 @@ formatter.setup(
   }
 )
 
-local group = vim.api.nvim_create_augroup("LspConfig", {clear = true})
-vim.api.nvim_create_autocmd(
-  "BufWritePost",
-  {
-    pattern = {"*.lua", "*.ts", "*.tsx", "*.js", "*.jsx", "*.json"},
-    command = "FormatWrite",
-    group = group
-  }
-)
+-- local group = vim.api.nvim_create_augroup("LspConfig", {clear = true})
+-- vim.api.nvim_create_autocmd(
+--   "BufWritePost",
+--   {
+--     pattern = {"*.lua", "*.ts", "*.tsx", "*.js", "*.jsx", "*.json"},
+--     command = "FormatWrite",
+--     group = group
+--   }
+-- )
