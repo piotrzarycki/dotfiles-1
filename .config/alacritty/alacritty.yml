@@ -139,12 +139,13 @@ font:
     # family: "Source Code Pro"
     # family: "Gintronic Light"
     # family: Hasklig
-    family: "JetBrainsMono Nerd Font"
+    # family: "JetBrainsMono Nerd Font"
     # family: "Office Code Pro D"
     # family: "Fantasque Sans Mono"
     # family: "IBM Plex Mono"
     # family: "Code New Roman"
     # family: "VictorMono Nerd Font"
+    family: "ComicMono NF" 
     style: Bold Italic
 
   # Point size of the font

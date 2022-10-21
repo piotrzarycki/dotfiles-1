@@ -192,8 +192,15 @@ Plug "puremourning/vimspector"
 
 -- vim test
 Plug "janko/vim-test"
+-- test coverage
+Plug "andythigpen/nvim-coverage"
 -- go lang
---Plug("ray-x/go.nvim", {["ft"] = { "go" } })
+Plug "ray-x/go.nvim"
+Plug "ray-x/guihua.lua"
+Plug "saadparwaiz1/cmp_luasnip"
+Plug "L3MON4D3/LuaSnip"
+Plug "folke/which-key.nvim"
+Plug "https://github.com/ActivityWatch/aw-watcher-vim.git"
 plugEnd()
 
 
@@ -214,4 +221,8 @@ require("plugins.telescope")
 require("plugins.completion")
 require("plugins.vimtest")
 require("plugins.vimspector")
+require("plugins.luasnip")
+require("plugins.which-key")
+require("plugins.nvim-coverage")
+require("plugins.go")
 
