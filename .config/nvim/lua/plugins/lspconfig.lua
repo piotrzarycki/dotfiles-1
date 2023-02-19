@@ -1,4 +1,3 @@
-local lsp_installer = require("nvim-lsp-installer")
 local lspconfig = require("lspconfig")
 local theme = require("theme")
 local colors = theme.colors
@@ -77,7 +76,6 @@ local diagnosticls_settings = {
     }
   }
 }
-
 local lua_settings = {
   Lua = {
     runtime = {
@@ -113,7 +111,7 @@ local function make_config(callback)
     }
   }
   capabilities.textDocument.colorProvider = {dynamicRegistration = false}
-  capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+  capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
   return callback(
     {
@@ -122,23 +120,6 @@ local function make_config(callback)
     }
   )
 end
-
-lsp_installer.setup(
-  {
-    ensure_installed = {
-      "eslint",
-      "tsserver",
-      "sumneko_lua",
-      "denols",
-      "vimls",
-      "gopls"
-    },
-    automatic_installation = true,
-    ui = {
-      check_outdated_servers_on_open = true
-    }
-  }
-)
 
 lspconfig.tsserver.setup(
   make_config(
@@ -173,13 +154,12 @@ lspconfig.sumneko_lua.setup(
   )
 )
 
-lspconfig.vimls.setup(
-  make_config(
-    function(config)
-      config.init_options = {isNeovim = true}
-      return config
-    end
-  )
+lspconfig.clangd.setup(
+    make_config(
+        function(config)
+          return config
+        end
+    )
 )
 
 lspconfig.diagnosticls.setup(

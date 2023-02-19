@@ -127,10 +127,6 @@ Plug "lewis6991/gitsigns.nvim"
 
 -- Helpers to configure the built-in Neovim LSP client
 Plug "neovim/nvim-lspconfig"
-
--- Helpers to install LSPs and maintain them
-Plug "williamboman/nvim-lsp-installer"
-
 -- neovim completion
 Plug "hrsh7th/cmp-nvim-lsp"
 Plug "hrsh7th/cmp-nvim-lua"
@@ -158,9 +154,6 @@ Plug "feline-nvim/feline.nvim"
 
 -- automatically complete brackets/parens/quotes
 Plug "windwp/nvim-autopairs"
-
--- Run prettier and other formatters on save
-Plug "mhartington/formatter.nvim"
 
 -- Style the tabline without taking over how tabs and buffers work in Neovim
 Plug "alvarosevilla95/luatab.nvim"
@@ -200,19 +193,37 @@ Plug "ray-x/guihua.lua"
 Plug "saadparwaiz1/cmp_luasnip"
 Plug "L3MON4D3/LuaSnip"
 Plug "folke/which-key.nvim"
-Plug "https://github.com/ActivityWatch/aw-watcher-vim.git"
+Plug ('catppuccin/nvim', { ["as"] = "catppuccin" })
+--Plug "https://github.com/ActivityWatch/aw-watcher-vim.git"
+  -- Debugging
+Plug "mfussenegger/nvim-dap"
+Plug "mxsdev/nvim-dap-vscode-js"
+-- Debugger user interface
+Plug "rcarriga/nvim-dap-ui"
+Plug "mfussenegger/nvim-jdtls"
+-- java
+Plug "williamboman/mason.nvim"
+Plug "williamboman/mason-lspconfig.nvim"
+--terminal
+Plug('akinsho/toggleterm.nvim', { ["tag"] = "*" })
+Plug('jose-elias-alvarez/null-ls.nvim')
+Plug('ldelossa/nvim-dap-projects')
 plugEnd()
 
 
 require("nvim-autopairs").setup()
+require("mason").setup()
+require("mason-lspconfig").setup()
 require("colorizer").setup()
+require("plugins.catppuccin")
 require("plugins.gitsigns")
 require("plugins.trouble")
+--require("plugins.java")
 require("plugins.fzf")
+require("plugins.null-ls")
 require("plugins.lspconfig")
 require("plugins.startify")
 require("plugins.nvimtree")
-require("plugins.formatter")
 require("plugins.tabline")
 require("plugins.feline")
 require("plugins.startup")
@@ -225,4 +236,8 @@ require("plugins.luasnip")
 require("plugins.which-key")
 require("plugins.nvim-coverage")
 require("plugins.go")
-
+require("plugins.toggleterm")
+require("plugins.dap")
+require('nvim-dap-projects').search_project_config()
+require('plugins.dap.dap-vscode-js')
+vim.cmd.colorscheme "catppuccin"

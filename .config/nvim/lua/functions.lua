@@ -47,7 +47,7 @@ function M.custom_lsp_attach(client, bufnr)
   vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
   vim.keymap.set("n", "ga", vim.lsp.buf.code_action, bufopts)
   vim.keymap.set("n", "<C-x><C-x>", vim.lsp.buf.signature_help, bufopts)
-
+  vim.keymap.set("n", "ff", vim.lsp.buf.format, bufopts)
   if client.server_capabilities.document_highlight then
     vim.api.nvim_create_autocmd(
       "CursorHold",
@@ -65,22 +65,6 @@ function M.custom_lsp_attach(client, bufnr)
         pattern = "*",
         callback = function()
           vim.lsp.buf.clear_references()
-        end,
-        group = group
-      }
-    )
-  end
-
-  -- disable document formatting (currently handled by formatter.nvim)
-  client.server_capabilities.document_formatting = false
-
-  if client.server_capabilities.document_formatting then
-    vim.api.nvim_create_autocmd(
-      "BufEnter",
-      {
-        pattern = "*",
-        callback = function()
-          vim.lsp.buf.formatting()
         end,
         group = group
       }

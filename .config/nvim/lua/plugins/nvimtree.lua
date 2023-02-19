@@ -18,6 +18,13 @@ nnoremap("<leader>k", "<CMD>lua NvimTreeConfig.find_toggle()<CR>")
 nvimtree.setup {
   disable_netrw = false,
   hijack_netrw = true,
+  actions = {
+    change_dir = {
+        enable = true,
+        global = false,
+        restrict_above_cwd = false,
+    }
+  },
   diagnostics = {
     enable = false,
     icons = {
