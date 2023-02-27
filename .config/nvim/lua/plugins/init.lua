@@ -194,7 +194,7 @@ Plug "saadparwaiz1/cmp_luasnip"
 Plug "L3MON4D3/LuaSnip"
 Plug "folke/which-key.nvim"
 Plug ('catppuccin/nvim', { ["as"] = "catppuccin" })
---Plug "https://github.com/ActivityWatch/aw-watcher-vim.git"
+Plug "https://github.com/ActivityWatch/aw-watcher-vim.git"
   -- Debugging
 Plug "mfussenegger/nvim-dap"
 Plug "mxsdev/nvim-dap-vscode-js"
@@ -208,6 +208,8 @@ Plug "williamboman/mason-lspconfig.nvim"
 Plug('akinsho/toggleterm.nvim', { ["tag"] = "*" })
 Plug('jose-elias-alvarez/null-ls.nvim')
 Plug('ldelossa/nvim-dap-projects')
+Plug "github/copilot.vim"
+Plug 'MunifTanjim/prettier.nvim'
 plugEnd()
 
 
@@ -220,6 +222,7 @@ require("plugins.gitsigns")
 require("plugins.trouble")
 --require("plugins.java")
 require("plugins.fzf")
+require("plugins.prettier")
 require("plugins.null-ls")
 require("plugins.lspconfig")
 require("plugins.startify")

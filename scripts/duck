@@ -1,0 +1,4 @@
+#!/bin/bash
+url="https://lite.duckduckgo.com/lite?kd=-1&kp=-1&q=$(urlencode "$*")" # 🦆
+#chat "🦆 searching: $* $url"
+exec lynx "$url"
