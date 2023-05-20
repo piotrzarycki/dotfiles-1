@@ -158,8 +158,6 @@ Plug "windwp/nvim-autopairs"
 -- Style the tabline without taking over how tabs and buffers work in Neovim
 Plug "alvarosevilla95/luatab.nvim"
 
--- enable copilot support for Neovim
-Plug "github/copilot.vim"
 -- improve the default neovim interfaces, such as refactoring
 Plug "stevearc/dressing.nvim"
 
@@ -194,7 +192,6 @@ Plug "saadparwaiz1/cmp_luasnip"
 Plug "L3MON4D3/LuaSnip"
 Plug "folke/which-key.nvim"
 Plug ('catppuccin/nvim', { ["as"] = "catppuccin" })
-Plug "https://github.com/ActivityWatch/aw-watcher-vim.git"
   -- Debugging
 Plug "mfussenegger/nvim-dap"
 Plug "mxsdev/nvim-dap-vscode-js"
