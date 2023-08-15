@@ -1,1 +1,8 @@
-require("luatab").setup({})
+return {
+    {
+        "alvarosevilla95/luatab.nvim",
+        config = function()
+            require("luatab").setup({})
+        end
+    }
+}

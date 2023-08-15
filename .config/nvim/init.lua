@@ -10,8 +10,6 @@ local termcodes = utils.termcodes
 local nmap = utils.nmap
 local vmap = utils.vmap
 local imap = utils.imap
-local xmap = utils.xmap
-local omap = utils.omap
 local nnoremap = utils.nnoremap
 local inoremap = utils.inoremap
 local vnoremap = utils.vnoremap
@@ -192,8 +190,6 @@ inoremap(opt_k, "<Esc>:m .-2<cr>==gi")
 vnoremap(opt_j, ":m '>+1<cr>gv=gv")
 vnoremap(opt_k, ":m '<-2<cr>gv=gv")
 
-require("plugins")
-
 
 cmd [[syntax on]]
 cmd [[filetype plugin indent on]]
@@ -209,3 +205,26 @@ cmd [[highlight xmlAttrib cterm=italic term=italic gui=italic]]
 cmd [[highlight Normal ctermbg=none]]
 -- make the StatusLine background match the GalaxyLine styles
 cmd("hi StatusLine guibg=" .. colors.bg)
+
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+require("lazy").setup({
+  { import = "plugins" },
+})
+
+cmd([[syntax on]])
+cmd([[filetype plugin indent on]])
+
+vim.g.catppuccin_flavour = "latte"
+-- vim.command.colorscheme "catppuccin"
+vim.cmd([[ colorscheme catppuccin ]])
