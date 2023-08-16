@@ -356,7 +356,7 @@ return {
         lazy = false,
         priority = 1000,
         opts = {
-            flavour = "latte",
+            flavour = "mocha",
             dim_inactive = { enabled = false, shade = "dark", percentage = 0.15 },
             transparent_background = true,
             term_colors = true,
