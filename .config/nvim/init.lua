@@ -225,6 +225,7 @@ require("lazy").setup({
 cmd([[syntax on]])
 cmd([[filetype plugin indent on]])
 
-vim.g.catppuccin_flavour = "latte"
+vim.g.everforest_background = "soft"
+vim.o.background = "light"
 -- vim.command.colorscheme "catppuccin"
-vim.cmd([[ colorscheme catppuccin ]])
+vim.cmd([[ colorscheme everforest ]])
