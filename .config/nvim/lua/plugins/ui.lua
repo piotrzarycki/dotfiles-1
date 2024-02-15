@@ -206,7 +206,7 @@ return {
                 window = {
                     mappings = {
                         ["<bs>"] = "navigate_up",
-                        -- ["<c-.>"] = "set_root",
+                        ["."] = "set_root",
                         ["H"] = "toggle_hidden",
                         ["/"] = "fuzzy_finder",
                         ["D"] = "fuzzy_finder_directory",
