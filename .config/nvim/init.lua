@@ -145,7 +145,6 @@ opt.listchars = {
 
 -- Mappings
 g.mapleader = ","
-opt.pastetoggle = "<leader>v"
 
 nnoremap("Q", "<nop>")
 imap("jk", "<Esc>")

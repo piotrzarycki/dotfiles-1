@@ -1,9 +1,19 @@
+vim.api.nvim_set_var("copilot_filetypes", {
+      ["dap-repl"] = false,
+})
 return {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
     event = "InsertEnter",
+    config = function()
+        require("copilot").setup({
+            filetypes = {
+                ["dap-repl"] = false,
+            }
+        })
+    end,
     opts = {
       suggestion = {
         enabled = true,
