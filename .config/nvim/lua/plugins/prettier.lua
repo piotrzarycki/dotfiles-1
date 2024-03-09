@@ -13,7 +13,6 @@ return {
                     "javascriptreact",
                     "json",
                     "less",
-                    "markdown",
                     "scss",
                     "typescript",
                     "typescriptreact",

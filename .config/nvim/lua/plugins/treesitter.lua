@@ -27,8 +27,6 @@ return {
         "json5",
         "jsonc",
         "lua",
-        "markdown",
-        "markdown_inline",
         "pug",
         "python",
         "ruby",
