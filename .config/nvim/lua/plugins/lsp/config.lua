@@ -206,6 +206,31 @@ function M.setup()
             }))
         end,
 
+        clangd = function()
+            lspconfig.clangd.setup(make_conf({
+            handlers = {
+                ["textDocument/definition"] = function(err, result, ctx, ...)
+                    if #result > 1 then
+                        result = { result[1] }
+                    end
+                    vim.lsp.handlers["textDocument/definition"](err, result, ctx, ...)
+                end,
+            },
+            filetypes = { "h", "c", "cpp", "cc", "objc", "objcpp"},
+            cmd = {"clangd", "--background-index"},
+            single_file_support = true,
+            root_dir = lspconfig.util.root_pattern(
+                '.clangd',
+                '.clang-tidy',
+                '.clang-format',
+                'compile_commands.json',
+                'compile_flags.txt',
+                'configure.ac',
+                '.git'
+                )
+            }))
+        end,
+
         denols = function()
             lspconfig.denols.setup(make_conf({
                 handlers = {
