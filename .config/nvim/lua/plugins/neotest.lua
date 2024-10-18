@@ -116,4 +116,12 @@ return {
       { "<leader>tS", function() require("neotest").run.stop() end, desc = "Stop" },
     },
   },
+  {
+    "mfussenegger/nvim-dap",
+    optional = true,
+    -- stylua: ignore
+    keys = {
+      { "<leader>td", function() require("neotest").run.run({strategy = "dap"}) end, desc = "Debug Nearest" },
+    },
+  },
 }
