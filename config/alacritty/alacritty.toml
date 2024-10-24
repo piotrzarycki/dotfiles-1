@@ -1,0 +1,69 @@
+render_timer = false
+tabspaces = 8
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.bright]
+black = "0xb4b4b4"
+blue = "0xb3d2ff"
+cyan = "0xc2fefa"
+green = "0xe3f7a1"
+magenta = "0xe5bdff"
+red = "0xf99f92"
+white = "0xffffff"
+yellow = "0xf2e9bf"
+
+[colors.normal]
+black = "0x000000"
+blue = "0x6ebaf8"
+cyan = "0x90fdf8"
+green = "0xbde97c"
+magenta = "0xef88ff"
+red = "0xf7786d"
+white = "0xe5e1d8"
+yellow = "0xefdfac"
+
+[colors.primary]
+background = "0x1f1f1f"
+foreground = "0xe5e1d8"
+
+[font]
+size = 10
+use_thin_strokes = true
+
+[font.bold]
+style = "Bold Italic"
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+[font.italic]
+family = "JetBrainsMono Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Bold Italic"
+
+[font.offset]
+x = 0
+y = -1
+
+[scrolling]
+auto_scroll = false
+faux_multiplier = 3
+history = 10000
+multiplier = 3
+
+[window]
+decorations = "full"
+
+[window.dimensions]
+columns = 0
+lines = 0
+
+[window.padding]
+x = 2
+y = 2
