@@ -232,4 +232,9 @@
 
 ;; Dape (debugger) configuration for Node.js/Jest
 ;; Dape loaded via debugger module
+(use-package! gptel
+  :config
+  (setq gptel-model "claude-3-5-sonnet-20240620" ; Najmocniejszy model do kodu
+        gptel-backend (gptel-make-anthropic "Claude"
+                        :key "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")))
 (setq eww-search-prefix "https://duckduckgo.com/lite/?q=")
