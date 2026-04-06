@@ -48,11 +48,9 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 (package! tree-sitter-langs)
-(use-package lsp-eslint
-      :demand t
-      :after lsp-mode)
 (package! company)
 (package! jest)
 (package! jest-test-mode)
 (package! prettier)
 (package! format-all)
+(package! gptel :recipe (:nonrecursive t))

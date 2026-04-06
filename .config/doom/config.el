@@ -146,28 +146,31 @@
        "f" #'lsp-eslint-fix-all          ; Fix all ESLint errors
        "r" #'flycheck-buffer))           ; Run linter
 
-;; Jest configuration
-(after! jest-test-mode
-  ;; Custom Jest runner functions
-  (defun my/jest-run-current-file ()
-    "Run Jest on current file."
-    (interactive)
-    (if (buffer-file-name)
-        (let ((file-name (buffer-file-name)))
-          (jest-test-run file-name))
-      (message "Buffer has no associated file")))
+;; Jest configuration - custom runner functions
+(defun my/jest-run-current-file ()
+  "Run Jest on current file."
+  (interactive)
+  (if (buffer-file-name)
+      (jest-test-run-at-point)
+    (message "Buffer has no associated file")))
 
-  (defun my/jest-debug ()
-    "Run Jest in debug mode."
-    (interactive)
-    (let ((jest-test-options '("--inspect-brk" "--runInBand")))
-      (call-interactively #'jest-test-run-at-point)))
+(defun my/jest-debug ()
+  "Run Jest in debug mode. Open chrome://inspect to connect."
+  (interactive)
+  (let* ((file (buffer-file-name))
+         (root (locate-dominating-file file "package.json")))
+    (unless file
+      (user-error "Buffer has no associated file"))
+    (let ((default-directory root))
+      (compile (format "node --inspect-brk node_modules/.bin/jest --runInBand %s"
+                       (shell-quote-argument file))))
+    (message "Open chrome://inspect to connect debugger")))
 
-  (defun my/jest-coverage ()
-    "Run Jest with coverage."
-    (interactive)
-    (let ((jest-test-options '("--coverage")))
-      (call-interactively #'jest-test-run))))
+(defun my/jest-coverage ()
+  "Run Jest with coverage."
+  (interactive)
+  (let ((jest-test-options '("--coverage")))
+    (call-interactively #'jest-test-run)))
 
 ;; Enable jest-test-mode for JavaScript/TypeScript files
 (add-hook 'js-mode-hook #'jest-test-mode)
@@ -208,6 +211,30 @@
       :desc "Paste from clipboard" "p" #'yank)
 
 ;; Make visual selection copy to clipboard
-(map! :v "y" (lambda () (interactive) 
+(map! :v "y" (lambda () (interactive)
                (kill-ring-save (region-beginning) (region-end))
                (message "Copied to clipboard!")))
+
+;; Centaur-tabs keybindings
+(map! :n "g t" #'centaur-tabs-forward          ; następna zakładka
+      :n "g T" #'centaur-tabs-backward         ; poprzednia zakładka
+      :n "g 1" #'centaur-tabs-select-beg-tab   ; pierwsza zakładka
+      :n "g 0" #'centaur-tabs-select-end-tab)  ; ostatnia zakładka
+
+(map! :leader
+      (:prefix ("TAB" . "tabs/workspaces")
+       "j" #'centaur-tabs-ace-jump                             ; skok do zakładki
+       "n" #'centaur-tabs-forward
+       "p" #'centaur-tabs-backward
+       "g" #'centaur-tabs-switch-group                         ; przełącz grupę
+       "k" #'centaur-tabs-kill-other-buffers-in-current-group  ; zamknij inne
+       "K" #'centaur-tabs-kill-all-buffers-in-current-group))  ; zamknij wszystkie
+
+;; Dape (debugger) configuration for Node.js/Jest
+;; Dape loaded via debugger module
+(use-package! gptel
+  :config
+  (setq gptel-model "claude-3-5-sonnet-20240620" ; Najmocniejszy model do kodu
+        gptel-backend (gptel-make-anthropic "Claude"
+                        :key "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")))
+(setq eww-search-prefix "https://duckduckgo.com/lite/?q=")
