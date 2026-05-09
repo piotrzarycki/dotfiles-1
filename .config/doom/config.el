@@ -234,11 +234,26 @@
 ;; Dape loaded via debugger module
 (use-package! gptel
   :config
-  (setq gptel-model "claude-3-5-sonnet-20240620" ; Najmocniejszy model do kodu
+  (setq gptel-model "claude-3-5-sonnet-20240620"
         gptel-backend (gptel-make-anthropic "Claude"
-                        :key "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")))
+                        :key (getenv "ANTHROPIC_API_KEY"))))
 (setq eww-search-prefix "https://duckduckgo.com/lite/?q=")
 
 (use-package! activity-watch-mode
   :config
   (global-activity-watch-mode))
+
+;; Rust / rust-analyzer
+(after! rustic
+  (setq rustic-lsp-client 'lsp-mode)
+  (setq rustic-format-on-save t)
+  (setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer")))
+
+(after! lsp-mode
+  (setq lsp-rust-analyzer-cargo-watch-command "clippy"
+        lsp-rust-analyzer-display-chaining-hints t
+        lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial"
+        lsp-rust-analyzer-display-parameter-hints nil
+        lsp-rust-analyzer-server-display-inlay-hints t
+        lsp-rust-analyzer-proc-macro-enable t
+        lsp-rust-analyzer-cargo-load-out-dirs-from-build t))
