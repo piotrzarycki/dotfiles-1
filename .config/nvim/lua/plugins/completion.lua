@@ -16,7 +16,6 @@ return {
       "hrsh7th/cmp-nvim-lua",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
-      "zbirenbaum/copilot-cmp",
       "onsails/lspkind-nvim",
       { "roobert/tailwindcss-colorizer-cmp.nvim", config = true },
     },
@@ -44,7 +43,6 @@ return {
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
         },
         sources = cmp.config.sources({
-          { name = "copilot" },
           { name = "vsnip" },
           { name = "nvim_lua" },
           { name = "nvim_lsp" },

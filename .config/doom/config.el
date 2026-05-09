@@ -238,3 +238,7 @@
         gptel-backend (gptel-make-anthropic "Claude"
                         :key "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")))
 (setq eww-search-prefix "https://duckduckgo.com/lite/?q=")
+
+(use-package! activity-watch-mode
+  :config
+  (global-activity-watch-mode))

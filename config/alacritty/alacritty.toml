@@ -40,12 +40,12 @@ x = 0
 y = 0
 
 [font.italic]
-family = "JetBrainsMono Nerd Font"
+family = "ComicMono NF"
 style = "Italic"
 
 [font.normal]
-family = "JetBrainsMono Nerd Font"
-style = "Bold Italic"
+family = "ComicMono NF"
+style = "Bold"
 
 [font.offset]
 x = 0

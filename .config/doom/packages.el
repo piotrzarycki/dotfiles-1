@@ -54,3 +54,4 @@
 (package! prettier)
 (package! format-all)
 (package! gptel :recipe (:nonrecursive t))
+(package! activity-watch-mode)
