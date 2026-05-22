@@ -200,7 +200,7 @@ function setup_terminfo() {
 }
 
 setup_hypr() {
-    title "Setting up Hyprland config (per-file symlinks)"
+    title "Setting up Hyprland config symlink"
 
     HYPR_SOURCE="$DOTFILES/config/hypr"
     HYPR_TARGET="$HOME/.config/hypr"
@@ -209,35 +209,17 @@ setup_hypr() {
         error "Hyprland config not found at $HYPR_SOURCE"
     fi
 
-    # Jeśli ~/.config/hypr to symlink do całego katalogu — zamień na prawdziwy katalog
     if [ -L "$HYPR_TARGET" ]; then
-        warning "$HYPR_TARGET jest symlinkiem do katalogu — zamieniam na prawdziwy katalog"
-        rm "$HYPR_TARGET"
-        mkdir -p "$HYPR_TARGET"
+        info "$HYPR_TARGET już zlinkowany — pomijam."
+    elif [ -e "$HYPR_TARGET" ]; then
+        warning "$HYPR_TARGET istnieje i nie jest symlinkiem — backup: ${HYPR_TARGET}.bak"
+        mv "$HYPR_TARGET" "${HYPR_TARGET}.bak"
+        ln -s "$HYPR_SOURCE" "$HYPR_TARGET"
+        success "Symlink: $HYPR_TARGET -> $HYPR_SOURCE"
     else
-        mkdir -p "$HYPR_TARGET"
+        ln -s "$HYPR_SOURCE" "$HYPR_TARGET"
+        success "Symlink: $HYPR_TARGET -> $HYPR_SOURCE"
     fi
-
-    # Linkuj każdy plik/katalog osobno, pomijając gitignorowane
-    for item in "$HYPR_SOURCE"/*; do
-        name="$(basename "$item")"
-        target="$HYPR_TARGET/$name"
-
-        # Pomiń pliki gitignorowane (np. monitors.conf)
-        if git -C "$DOTFILES" check-ignore -q "config/hypr/$name"; then
-            info "Pomijam (gitignorowany): $name"
-            continue
-        fi
-
-        if [ -L "$target" ]; then
-            info "Już zlinkowany: $name — pomijam"
-        elif [ -e "$target" ]; then
-            warning "$name już istnieje (nie jest symlinkiem) — pomijam"
-        else
-            ln -s "$item" "$target"
-            success "Symlink: $target -> $item"
-        fi
-    done
 
     echo -e
     warning "monitors.conf jest gitignorowany — skonfiguruj go ręcznie lub przez nwg-displays."
