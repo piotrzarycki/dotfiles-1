@@ -199,6 +199,50 @@ function setup_terminfo() {
     tic -x "$DOTFILES/resources/xterm-256color-italic.terminfo"
 }
 
+setup_hypr() {
+    title "Setting up Hyprland config (per-file symlinks)"
+
+    HYPR_SOURCE="$DOTFILES/config/hypr"
+    HYPR_TARGET="$HOME/.config/hypr"
+
+    if [ ! -d "$HYPR_SOURCE" ]; then
+        error "Hyprland config not found at $HYPR_SOURCE"
+    fi
+
+    # Jeśli ~/.config/hypr to symlink do całego katalogu — zamień na prawdziwy katalog
+    if [ -L "$HYPR_TARGET" ]; then
+        warning "$HYPR_TARGET jest symlinkiem do katalogu — zamieniam na prawdziwy katalog"
+        rm "$HYPR_TARGET"
+        mkdir -p "$HYPR_TARGET"
+    else
+        mkdir -p "$HYPR_TARGET"
+    fi
+
+    # Linkuj każdy plik/katalog osobno, pomijając gitignorowane
+    for item in "$HYPR_SOURCE"/*; do
+        name="$(basename "$item")"
+        target="$HYPR_TARGET/$name"
+
+        # Pomiń pliki gitignorowane (np. monitors.conf)
+        if git -C "$DOTFILES" check-ignore -q "config/hypr/$name"; then
+            info "Pomijam (gitignorowany): $name"
+            continue
+        fi
+
+        if [ -L "$target" ]; then
+            info "Już zlinkowany: $name — pomijam"
+        elif [ -e "$target" ]; then
+            warning "$name już istnieje (nie jest symlinkiem) — pomijam"
+        else
+            ln -s "$item" "$target"
+            success "Symlink: $target -> $item"
+        fi
+    done
+
+    echo -e
+    warning "monitors.conf jest gitignorowany — skonfiguruj go ręcznie lub przez nwg-displays."
+}
+
 setup_macos() {
     title "Configuring macOS"
     if [[ "$(uname)" == "Darwin" ]]; then
@@ -278,6 +322,9 @@ case "$1" in
     macos)
         setup_macos
         ;;
+    hypr)
+        setup_hypr
+        ;;
     all)
         setup_symlinks
         setup_terminfo
@@ -287,7 +334,7 @@ case "$1" in
         setup_macos
         ;;
     *)
-        echo -e $"\nUsage: $(basename "$0") {backup|link|git|homebrew|shell|terminfo|macos|all}\n"
+        echo -e $"\nUsage: $(basename "$0") {backup|link|git|homebrew|shell|terminfo|macos|hypr|all}\n"
         exit 1
         ;;
 esac
