@@ -27,10 +27,10 @@ done
 
 
 # Initialize swww if needed
-swww query || swww-daemon --format xrgb
+awww query || awww-daemon --format xrgb
 
 # Set swww options
-swww="swww img"
+swww="awww img"
 effect="--transition-bezier .43,1.19,1,.4 --transition-fps 60 --transition-type grow --transition-pos 0.925,0.977 --transition-duration 2"
 
 # Determine current theme mode
