@@ -1,30 +1,71 @@
 # Dotfiles — kontekst dla Claude
 
 ## Właściciel
-Piotr Zarycki (`piotrzarycki`) — developer, używa Arch Linux + Hyprland na desktopie i laptopie.
+Piotr Zarycki (`piotrzarycki`) — developer, Arch Linux + Hyprland na laptopie i desktopie.
 
 ## Struktura repo
 
 ```
 dotfiles-1/
 ├── .config/
-│   ├── doom/          # Doom Emacs config (zlinkowane do ~/.config/doom)
-│   ├── nvim/          # Neovim config
-│   ├── alacritty/     # Terminal
-│   └── kitty/         # Terminal (główny na Hyprland)
-├── Arch-Hyprland/     # Symlink -> /projects/Arch-Hyprland (Hyprland dots)
-├── zsh/               # Zsh config
-└── install.sh         # Instalator (linkuje pliki .symlink)
+│   ├── doom/              # Doom Emacs config → ~/.config/doom
+│   ├── nvim/              # Neovim config
+│   └── kitty/             # Kitty (zapasowy terminal)
+├── config/
+│   ├── alacritty/         # → ~/.config/alacritty
+│   ├── hypr/              # Hyprland config → ~/.config/hypr  ← główny
+│   └── ...                # inne: install.sh linkuje config/* do ~/.config/*
+├── Hyprland-Dots/         # submodule: github.com/piotrzarycki/Hyprland-Dots (fork JaKooLit)
+│                          # używany jako referencja/template, NIE jako live config
+├── zsh/                   # Zsh config
+└── install.sh             # Instalator (symlinki .symlink + config/*)
 ```
+
+### Jak działa install.sh
+- Pliki `*.symlink` → linkowane do `~/.<nazwa>`
+- Katalogi w `config/` → linkowane do `~/.config/<nazwa>`
+- Osobna funkcja `setup_hypr` obsługuje `~/.config/hypr` z backupem
 
 ## Środowisko
 
-- **OS:** Arch Linux
-- **WM:** Hyprland (Wayland)
+- **OS:** Arch Linux (laptop + desktop)
+- **WM:** Hyprland 0.55+ (Wayland)
 - **Shell:** Zsh
-- **Terminal:** Kitty
+- **Terminal:** Ghostty (główny), Kitty (zapasowy)
 - **Editor:** Doom Emacs + Neovim
-- **Monitor:** DP-1 (2560x1440)
+- **Monitory (laptop):** eDP-1 (2880x1800) + DP-1 (5120x1440) + HDMI-A-1 (3440x1440)
+
+## Hyprland
+
+Live config: `config/hypr/` → `~/.config/hypr` (symlink)
+
+### Struktura config/hypr/
+- `hyprland.conf` — główny, source'uje resztę
+- `configs/Keybinds.conf` — keybindy (domyślne)
+- `UserConfigs/` — tutaj idą wszystkie personalizacje użytkownika
+  - `01-UserDefaults.conf` — `$term = ghostty`, `$files = ...`
+  - `UserSettings.conf` — dwindle, master, general, input, misc
+  - `WindowRules.conf` — reguły okien (opacity Emacs: `0.9 0.85`)
+  - `Startup_Apps.conf` — autostart (wallpaper: `gritty.png`)
+- `scripts/` — skrypty pomocnicze (wallpaper, layout, volume, itd.)
+- `UserScripts/` — skrypty użytkownika
+- `monitors.conf` — **gitignorowany**, machine-specific (nwg-displays)
+- `workspaces.conf` — reguły workspace'ów
+
+### Ważne keybindy (wallpaper)
+- `Super+W` — wybór wallpapera (rofi)
+- `Super+Shift+W` — efekty wallpapera
+- `Ctrl+Alt+W` — losowy wallpaper
+
+### Hyprland 0.55 — usunięte/zmienione opcje
+Po upgrade (2026-05-21) naprawione deprecacje:
+- `togglesplit` → `layoutmsg, togglesplit` (`configs/Keybinds.conf` + `scripts/ChangeLayout.sh`)
+- `dwindle { pseudotile = true }` — usunąć (działa tylko przez dispatcher `Super+P`)
+- `misc { vfr = true }` — usunąć (VFR zawsze włączone)
+
+### Wallpaper
+- Domyślny: `gritty.png` z pakietu `archlinux-wallpaper`
+- Ścieżka: `~/Pictures/wallpapers/gritty.png` (skopiowany z `/usr/share/backgrounds/archlinux/`)
 
 ## Doom Emacs
 
@@ -43,21 +84,8 @@ Konfiguracja w `.config/doom/`. Aktywne moduły:
 - `rustic-format-on-save t` — rustfmt przy zapisie
 - gptel (Claude) — klucz przez `ANTHROPIC_API_KEY` env var (nie hardkodować!)
 - Wayland clipboard przez `wl-copy`/`wl-paste`
-
-## Hyprland (Arch-Hyprland)
-
-Osobne repo: `github.com/piotrzarycki/Hyprland-Dots` (fork JaKooLit).
-
-### Ważne zmiany po migracji
-- **swww → awww** — wszystkie skrypty używają `awww`/`awww-daemon`, NIE `swww`
-- `awww` cache jest w `~/.cache/awww/<wersja>/` (podkatalog z numerem wersji)
-- `awww query` zwraca format `: DP-1: ...` (nie `Monitor DP-1:`)
-- Wallpaper domyślny: `~/Pictures/wallpapers/Northern Lights3.png`
-
-### Skróty klawiaturowe (wallpaper)
-- `Super+W` — wybór wallpapera (rofi)
-- `Super+Shift+W` — efekty wallpapera
-- `Ctrl+Alt+W` — losowy wallpaper
+- Motyw: doom-tokyo-night, ligatures, rainbow-delimiters, transparent background
+- Opacity window rule w Hyprlandzie: `opacity 0.9 0.85`
 
 ## Zmienne środowiskowe (wymagane)
 
@@ -76,13 +104,23 @@ Dodać do `~/.zshrc` lub `~/.zshenv`.
 ## Instalacja na nowej maszynie
 
 ```bash
-git clone git@github.com:piotrzarycki/dotfiles-1.git ~/dotfiles-1
-cd ~/dotfiles-1 && ./install.sh
+git clone git@github.com:piotrzarycki/dotfiles-1.git ~/projects/dotfiles-1
+cd ~/projects/dotfiles-1
 
-# Hyprland dots
-git clone git@github.com:piotrzarycki/Hyprland-Dots.git
-cd Hyprland-Dots && ./copy.sh
+# symlinki (.config/doom, config/alacritty, itd.)
+./install.sh link
+
+# Hyprland — osobna funkcja z backupem istniejącego katalogu
+./install.sh hypr
+
+# Po instalacji: skonfiguruj monitors.conf (gitignorowany, machine-specific)
+# Możesz użyć nwg-displays albo wpisać ręcznie, np.:
+#   monitor=DP-1,2560x1440@144,0x0,1.0
 
 # Doom Emacs
 doom sync
 ```
+
+### Czego NIE ma w repo (machine-specific)
+- `config/hypr/monitors.conf` — konfiguracja monitorów (gitignored)
+- `ANTHROPIC_API_KEY` — klucz API do gptel
