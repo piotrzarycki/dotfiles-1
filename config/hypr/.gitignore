@@ -4,3 +4,7 @@ monitors.conf
 # Generated wallpaper cache (machine-specific, large binaries)
 wallpaper_effects/.wallpaper_current
 wallpaper_effects/.wallpaper_modified
+
+# Machine-specific settings (GPU, DRM devices, etc.) — create manually on each machine
+# See CLAUDE.md for per-machine examples
+UserConfigs/machine.conf

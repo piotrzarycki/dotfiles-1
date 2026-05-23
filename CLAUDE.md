@@ -38,19 +38,19 @@ dotfiles-1/
 ### 🖥️ Stacjonarka
 - **GPU:** NVIDIA GeForce RTX 4080, sterownik 595.71.05
 - **DRM devices:** `card0` = ASPEED BMC (karta serwerowa, ignorować!), `card1` = RTX 4080
-  - `AQ_DRM_DEVICES=/dev/dri/card1` ustawione w `ENVariables.conf` — **nie usuwać!**
-- **Wymagane env NVIDIA** (odkomentowane w `ENVariables.conf`):
-  ```
+- **Hardware cursors:** `no_hardware_cursors = 1` (force disable dla NVIDIA) w `UserSettings.conf`
+- **Wallpaper daemon:** zainstalowane `awww` (fork `swww` z identycznym API, inna nazwa binarki)
+  - Wszystkie skrypty używają `awww`/`awww-daemon` zamiast `swww`/`swww-daemon`
+  - Cache: `~/.cache/awww/` (nie `~/.cache/swww/`)
+- **`machine.conf`** (gitignorowany, tworzony lokalnie):
+  ```ini
+  env = AQ_DRM_DEVICES,/dev/dri/card1
   env = LIBVA_DRIVER_NAME,nvidia
   env = __GLX_VENDOR_LIBRARY_NAME,nvidia
   env = NVD_BACKEND,direct
   env = GSK_RENDERER,ngl
   ```
   Bez tych zmiennych: wolne animacje, hyprlock nie przyjmuje klawiatury.
-- **Hardware cursors:** `no_hardware_cursors = 1` (force disable dla NVIDIA) w `UserSettings.conf`
-- **Wallpaper daemon:** zainstalowane `awww` (fork `swww` z identycznym API, inna nazwa binarki)
-  - Wszystkie skrypty używają `awww`/`awww-daemon` zamiast `swww`/`swww-daemon`
-  - Cache: `~/.cache/awww/` (nie `~/.cache/swww/`)
 
 ---
 
@@ -165,8 +165,15 @@ doom sync
 1. Sprawdź czy `awww` jest zainstalowane: `pacman -Q awww`
    - Jeśli nie: zainstaluj z AUR (`yay -S awww`) lub podmień na `swww` i zaktualizuj skrypty
 2. Sprawdź DRM devices: `ls -la /dev/dri/` — RTX 4080 powinien być `card1`
-   - Jeśli inaczej: zaktualizuj `AQ_DRM_DEVICES` w `UserConfigs/ENVariables.conf`
-3. Env NVIDIA w `UserConfigs/ENVariables.conf` muszą być **odkomentowane** (są domyślnie)
+3. Stwórz `~/.config/hypr/UserConfigs/machine.conf` (plik **nie** jest w repo):
+   ```ini
+   env = AQ_DRM_DEVICES,/dev/dri/card1
+   env = LIBVA_DRIVER_NAME,nvidia
+   env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+   env = NVD_BACKEND,direct
+   env = GSK_RENDERER,ngl
+   ```
+   Jeśli `card1` to nie RTX 4080, dostosuj `AQ_DRM_DEVICES`.
 
 ### Czego NIE ma w repo (machine-specific)
 - `config/hypr/monitors.conf` — konfiguracja monitorów (gitignored)
