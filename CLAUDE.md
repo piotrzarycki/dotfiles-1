@@ -34,6 +34,10 @@ dotfiles-1/
 - **Monitory:** eDP-1 (2880x1800, wbudowany) + DP-1 (5120x1440) + HDMI-A-1 (3440x1440)
 - **GPU:** (zintegrowany / dedykowany — bez specjalnych NVIDIA quirks)
 - **Specyficzne:** `UserConfigs/LaptopDisplay.conf`, `UserConfigs/Laptops.conf` (touchpad, jasność)
+- **`machine.conf`** (wymagany, pusty wystarczy):
+  ```bash
+  touch ~/.config/hypr/UserConfigs/machine.conf
+  ```
 
 ### 🖥️ Stacjonarka
 - **GPU:** NVIDIA GeForce RTX 4080, sterownik 595.71.05
@@ -165,7 +169,7 @@ doom sync
 1. Sprawdź czy `awww` jest zainstalowane: `pacman -Q awww`
    - Jeśli nie: zainstaluj z AUR (`yay -S awww`) lub podmień na `swww` i zaktualizuj skrypty
 2. Sprawdź DRM devices: `ls -la /dev/dri/` — RTX 4080 powinien być `card1`
-3. Stwórz `~/.config/hypr/UserConfigs/machine.conf` (plik **nie** jest w repo):
+3. Stwórz `~/.config/hypr/UserConfigs/machine.conf` (plik **nie** jest w repo, ale **musi** istnieć — Hyprland 0.55 nie obsługuje optional include):
    ```ini
    env = AQ_DRM_DEVICES,/dev/dri/card1
    env = LIBVA_DRIVER_NAME,nvidia

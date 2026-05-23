@@ -1,0 +1,17 @@
+# /* Machine-specific config — copy to machine.conf and customize */
+# machine.conf is gitignored. You MUST create it manually on each machine.
+# Hyprland will error if this file doesn't exist (optional: not supported in 0.55).
+#
+# Minimum: create an empty machine.conf
+#   touch ~/.config/hypr/UserConfigs/machine.conf
+#
+# ── Desktop with NVIDIA RTX 4080 ─────────────────────────────────────────────
+# card0 = ASPEED BMC (server chip, ignore), card1 = RTX 4080
+# env = AQ_DRM_DEVICES,/dev/dri/card1
+# env = LIBVA_DRIVER_NAME,nvidia
+# env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+# env = NVD_BACKEND,direct
+# env = GSK_RENDERER,ngl
+#
+# ── Laptop (no NVIDIA quirks needed) ─────────────────────────────────────────
+# (empty file is fine)
