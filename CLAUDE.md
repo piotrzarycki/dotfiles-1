@@ -46,6 +46,7 @@ dotfiles-1/
 - **Wallpaper daemon:** zainstalowane `awww` (fork `swww` z identycznym API, inna nazwa binarki)
   - Wszystkie skrypty używają `awww`/`awww-daemon` zamiast `swww`/`swww-daemon`
   - Cache: `~/.cache/awww/` (nie `~/.cache/swww/`)
+  - **awww 0.12.1:** nie akceptuje `--format xrgb` (tylko `argb|abgr|rgb|bgr`) — uruchamiać bez flagi `--format`
 - **`machine.conf`** (gitignorowany, tworzony lokalnie):
   ```ini
   env = AQ_DRM_DEVICES,/dev/dri/card1
